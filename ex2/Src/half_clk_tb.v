@@ -63,7 +63,7 @@ module enabled_one_third_clk_tb;
     always #50 clk_in = ~clk_in;
     
     initial fork
-        clk_in = 0;
+        clk_in = 1;
         reset = 1;
         
         #10 reset = 0;

@@ -45,22 +45,24 @@ endmodule
 module enabled_one_third_clk(reset, clk_in, clk_out, s, g, l);
     input reset, clk_in;
     output reg clk_out;
-    output reg [3:0] g, l;
+    output reg [2:0] g, l;
     output wire s;
-    assign s = g + l;
+    assign s = (g + l + 1) % 3 == 0;
     
     always @(posedge clk_in or negedge reset) begin
-        g = g + 1;
-        if(!reset) begin
-            g = 0;
-        end
+        g = (g + 1) % 3;
+        if(!reset) g = 0;
     end
     
     always @(negedge clk_in or negedge reset) begin
-        l = l + 1;
-        if(!reset) begin
-            l = 0;
-        end
+        l = (l + 1) % 3;
+        if(!reset) l = 0;
     end
+    
+    always @(negedge s or negedge reset) begin
+        if(!reset)clk_out = 0;
+        else clk_out = ~clk_out;
+    end
+    
 endmodule
 
