@@ -1,26 +1,22 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2020/11/15 17:17:03
-// Design Name: 
-// Module Name: divider
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
-module divider(
-
-    );
+module divider(reset, clk_in, clk_out);
+    input reset, clk_in;
+    output reg clk_out;
+    
+    reg [4:0] count;
+    
+    always @(posedge clk_in) begin
+        if(!reset) begin
+            clk_out <= 0;
+            count <= 0;
+        end
+        
+        else begin
+            if(count == 19)begin
+                count <= 0;
+                clk_out <= ~clk_out;
+            end
+            
+            else count <= count + 1;
+         end
+    end
 endmodule
